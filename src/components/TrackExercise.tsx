@@ -77,7 +77,7 @@ export function TrackExercise(props: ITrackExerciseProps) {
                         type='number'
                         label='Répétitions'
                         labelPlacement='inside'
-                        size='md'
+                        size='sm'
                         onChange={(e) =>
                             updateSetData(set.id, 'repetitions', Number(e.target.value))
                         }

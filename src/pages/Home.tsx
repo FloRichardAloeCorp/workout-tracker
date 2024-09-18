@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, useDisclosure } from '@nextui-org/react'
+import { Card, CardBody, useDisclosure } from '@nextui-org/react'
 import * as React from 'react'
 import { Header } from '../components/Header'
 import Store from '../store/store'
@@ -11,8 +11,6 @@ import {
     FireIcon,
     PlusCircleIcon,
 } from '@heroicons/react/24/solid'
-import { ExerciseTracking } from '../type'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import { StatCard } from '../components/StatCard'
 import { format } from 'date-fns'
 import { SelectExerciseStatModal } from '../components/SelectExerciseStatModal'
@@ -22,19 +20,7 @@ export interface IHomeProps {}
 export function Home(props: IHomeProps) {
     const [profile] = React.useState(() => Store.readProfile())
     const selectExerciseModalDiscosure = useDisclosure()
-
     const navigate = useNavigate()
-
-    const findExcersiceTrackings = (exerciseId: string): ExerciseTracking[] => {
-        const trackings: ExerciseTracking[] = []
-        profile.trainings.forEach((training) => {
-            training.trackings.forEach((tracking) => {
-                trackings.push(tracking)
-            })
-        })
-
-        return trackings
-    }
 
     return (
         <div className='App'>
@@ -62,12 +48,19 @@ export function Home(props: IHomeProps) {
                     stat={`${profile.trainings.length.toString()}`}
                     icon={<FireIcon className='size-5' />}
                 />
-
-                <StatCard
-                    title='Dernière séance'
-                    stat={format(profile.trainings[profile.trainings.length - 1].date, 'dd/MM')}
-                    icon={<CalendarIcon className='size-5' />}
-                />
+                {profile.trainings.length === 0 ? (
+                    <StatCard
+                        title='Dernière séance'
+                        stat={'N/A'}
+                        icon={<CalendarIcon className='size-5' />}
+                    />
+                ) : (
+                    <StatCard
+                        title='Dernière séance'
+                        stat={format(profile.trainings[profile.trainings.length - 1].date, 'dd/MM')}
+                        icon={<CalendarIcon className='size-5' />}
+                    />
+                )}
             </div>
 
             <Card
