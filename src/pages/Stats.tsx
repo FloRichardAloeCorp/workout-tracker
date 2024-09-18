@@ -205,7 +205,7 @@ export function Stats(props: IStatsProps) {
                         </div>
                     ) : null}
                     <h2 className='mb-2'>Evolution du poid moyen par séances</h2>
-                    <ProgressChart dataSet={avgWeightByTraining} YAxisUnit='kg' />)
+                    <ProgressChart dataSet={avgWeightByTraining} YAxisUnit='kg' />
                 </>
             )}
         </div>

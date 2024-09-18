@@ -72,12 +72,14 @@ export function TrackExercise(props: ITrackExerciseProps) {
                         size='sm'
                         endContent={<p className='text-sm'>{unit}</p>}
                         onChange={(e) => updateSetData(set.id, 'weight', Number(e.target.value))}
+                        inputMode='numeric'
                     />
                     <Input
                         type='number'
                         label='Répétitions'
                         labelPlacement='inside'
                         size='sm'
+                        inputMode='numeric'
                         onChange={(e) =>
                             updateSetData(set.id, 'repetitions', Number(e.target.value))
                         }
