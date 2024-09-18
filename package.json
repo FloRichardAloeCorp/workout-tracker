@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
+    "@internationalized/date": "^3.5.5",
+    "@nextui-org/react": "^2.4.8",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,9 +13,14 @@
     "@types/node": "^17.0.45",
     "@types/react": "^18.3.6",
     "@types/react-dom": "^18.3.0",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^11.5.4",
     "react": "^18.3.1",
+    "react-charts": "^3.0.0-beta.57",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
+    "recharts": "^2.13.0-alpha.5",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.6.0",
@@ -51,5 +59,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.11"
   }
 }
