@@ -6,8 +6,7 @@ export interface IWeightUnitSelectorProps {
 }
 
 export function WeightUnitSelector(props: IWeightUnitSelectorProps) {
-    const [unit, setUnit] = React.useState('kg')
-    const selectedClass = 'bg-slate-500'
+    const [unit, setUnit] = React.useState('Kg')
 
     const updateUnit = (unit: string) => {
         return () => {
@@ -17,17 +16,20 @@ export function WeightUnitSelector(props: IWeightUnitSelectorProps) {
     }
 
     return (
-        <div className='flex flex-row flex-grow items-center justify-end'>
-            <p className='mr-2'> Unité </p>
+        <div className='flex flex-row flex-grow items-center justify-end '>
             <Button
                 size='sm'
-                className={`rounded-r-none ${unit === 'Kg' ? selectedClass : ''}`}
+                className={`rounded-r-none min-w-0 w-11 text-[#09231B] ${
+                    unit === 'Kg' ? 'bg-[#FFDB95]' : 'bg-[#FEEFC2]'
+                }`}
                 onClick={updateUnit('Kg')}>
                 Kg
             </Button>
             <Button
                 size='sm'
-                className={`rounded-l-none ${unit === 'Lbs' ? selectedClass : ''}`}
+                className={`rounded-l-none min-w-0 w-11 text-[#09231B] ${
+                    unit === 'Lbs' ? 'bg-[#FFDB95]' : 'bg-[#FEEFC2]'
+                }`}
                 onClick={updateUnit('Lbs')}>
                 Lbs
             </Button>

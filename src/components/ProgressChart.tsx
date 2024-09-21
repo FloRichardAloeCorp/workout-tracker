@@ -32,20 +32,34 @@ export function ProgressChart(props: IProgressChartProps) {
         return null
     }
 
+    const minYValue = props.dataSet.reduce((min, current) => {
+        return current.value < min.value ? current : min
+    }, props.dataSet[0])
+
+    const maxYValue = props.dataSet.reduce((max, current) => {
+        return current.value > max.value ? current : max
+    }, props.dataSet[0])
+
+    const roundedMinCharge = Math.round(minYValue != null ? minYValue.value : 0)
+    const roundedMaxCharge = Math.round(maxYValue != null ? maxYValue.value : 100)
+
     return (
         <ResponsiveContainer width='100%' height='100%' minHeight={200}>
-            <LineChart data={props.dataSet}>
+            <LineChart data={props.dataSet} margin={{ top: 20, right: 5, bottom: 5 }}>
+                <CartesianGrid horizontal={false} />
+
                 <Line type='monotone' dataKey='value' stroke='#8884d8' />
-                <CartesianGrid stroke='#ccc' />
-                <XAxis
-                    dataKey='date'
-                    tickFormatter={(date: Date) => format(date, 'dd/MM/yyyy')}
-                    height={57}
-                    angle={-45}
-                    textAnchor='end'
+                <YAxis
+                    width={30}
+                    label={{ value: props.YAxisUnit, position: 'center' }}
                     className='text-xs'
+                    interval={'preserveStartEnd'}
+                    ticks={[roundedMinCharge, roundedMaxCharge]}
+                    domain={[roundedMinCharge, roundedMaxCharge]}
+                    tickLine={false}
+                    axisLine={false}
                 />
-                <YAxis width={45} unit={props.YAxisUnit} className='text-xs' />
+                <XAxis dataKey={'date'} hide />
                 <Tooltip content={<CustomTooltip />} />
             </LineChart>
         </ResponsiveContainer>

@@ -1,29 +1,36 @@
+import { Timestamp } from "firebase/firestore"
+
+export interface Profile {
+  created_at: Timestamp
+  trainings: Training[]
+}
+
 export interface Training {
-  date: Date,
+  training_id: string
+  start_date: Timestamp,
+  duration_in_secondes: number,
   trackings: ExerciseTracking[]
 }
 
 export interface ExerciseTracking {
-  id: string
-  date: Date,
-  exerciseId: string
+  exercise_tracking_id: string
+  date: Timestamp,
+  exercise_id: string
   sets: Set[]
 }
 
 export interface Set {
-  id: string
+  set_id: string
   weight: number
   repetitions: number
 }
 
 export interface Exercise {
-  id: string
+  exercise_id: string
   name: string,
+  category: string,
 }
 
-export interface Profil {
-  trainings: Training[]
-}
 
 export interface ChartDataPoint {
   value: number

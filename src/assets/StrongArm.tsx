@@ -1,14 +1,15 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface IStrongArmProps {
-    className: string;
+    className: string
+    color: string
 }
 
 export function StrongArm(props: IStrongArmProps) {
     return (
         <svg
             className={props.className}
-            fill='#000000'
+            fill={props.color}
             version='1.1'
             id='Capa_1'
             xmlns='http://www.w3.org/2000/svg'
@@ -16,8 +17,7 @@ export function StrongArm(props: IStrongArmProps) {
             width='64px'
             height='64px'
             viewBox='0 0 471.787 471.787'
-            xmlSpace='preserve'
-        >
+            xmlSpace='preserve'>
             <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
             <g id='SVGRepo_tracerCarrier' strokeLinecap='round' strokeLinejoin='round'></g>
             <g id='SVGRepo_iconCarrier'>
@@ -31,5 +31,5 @@ export function StrongArm(props: IStrongArmProps) {
                 </g>{' '}
             </g>
         </svg>
-    );
+    )
 }

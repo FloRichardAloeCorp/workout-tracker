@@ -10,9 +10,36 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  max-height: 100vh;
   background: #FFFFFF;
+  overscroll-behavior: none;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Disable scroll bar*/
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+body > #root > div {
+  max-height: 100vh;
+  height: 100vh;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
 }
 
 code {
@@ -25,14 +52,12 @@ h1 {
   font-size: 1.25rem;
   line-height: 1.75rem;
   text-align: center;
-  margin-bottom: 1.25rem;
 }
 
 h2 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
   font-weight: 700;
-  margin-top: 0.75rem;
 }
 
 .description {

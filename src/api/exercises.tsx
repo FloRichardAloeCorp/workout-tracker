@@ -1,33 +1,56 @@
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import { Exercise } from '../type'
-
-const exercises = [
-    {
-        id: '1',
-        name: 'Développé couché',
-    },
-    {
-        id: '2',
-        name: 'Tirage vertical',
-    },
-    {
-        id: '3',
-        name: 'Squat',
-    },
-    {
-        id: '4',
-        name: 'Curl haltères',
-    },
-]
+import { db } from '../firebase'
 
 export const fetchExercises = async (): Promise<Exercise[]> => {
-    return exercises
-}
+    try {
+        const exercisesCollection = collection(db, 'exercises')
+        const querySnapshot = await getDocs(exercisesCollection)
 
-export const getExercisebyId = async (exerciseId: string): Promise<Exercise> => {
-    const exo = exercises.find((exercise) => exercise.id === exerciseId)
-    if (!exo) {
-        throw new Error('unknown exercise id')
+        const exercises = querySnapshot.docs.map(
+            (doc): Exercise => ({
+                exercise_id: doc.id,
+                name: doc.get('name'),
+                category: doc.get('category'),
+            })
+        )
+
+        return exercises
+    } catch (error) {
+        console.log("can't fetch exercise", error)
+        return []
     }
-
-    return exo
 }
+
+export const getExercisebyId = async (exerciseId: string): Promise<Exercise | undefined> => {
+    try {
+        const exerciseDocRef = doc(db, 'exercises', exerciseId)
+        const exerciseDoc = await getDoc(exerciseDocRef)
+        if (!exerciseDoc.exists()) {
+            throw new Error('unknown exercise id')
+        }
+
+        return {
+            exercise_id: exerciseDoc.id,
+            name: exerciseDoc.get('name'),
+            category: exerciseDoc.get('category'),
+        }
+    } catch (error) {
+        console.log(error)
+        return undefined
+    }
+}
+
+// const addData = async () => {
+//     try {
+//         for (const ex of Exo) {
+//             await setDoc(doc(db, 'exercises', ex.UUID), {
+//                 name: ex.Name,
+//                 category: ex.Category,
+//             })
+//         }
+//         console.log('success')
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }

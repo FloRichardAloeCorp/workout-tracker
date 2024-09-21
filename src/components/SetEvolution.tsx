@@ -1,34 +1,34 @@
-import * as React from 'react';
-import { Set } from '../type';
-import { ComparisonCard } from './ComparisonCard';
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
+import * as React from 'react'
+import { Set } from '../type'
+import { ComparisonCard } from './ComparisonCard'
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
 
 export interface ISetEvolutionProps {
-    baseSets: Set[];
-    newSets: Set[];
+    baseSets: Set[]
+    newSets: Set[]
 }
 
 type Column = {
-    name: string;
-    key: string;
-};
+    name: string
+    key: string
+}
 
 type ComparisonData = {
-    baseValue: number;
-    newValue: number;
-};
+    baseValue: number
+    newValue: number
+}
 
 type Row = {
-    id: string;
-    unit: string;
+    id: string
+    unit: string
     data: {
-        [key: string]: ComparisonData;
-    };
-};
+        [key: string]: ComparisonData
+    }
+}
 
 export function SetEvolution(props: ISetEvolutionProps) {
-    const [rows, setRows] = React.useState<Row[]>([]);
-    const [columns, setColumns] = React.useState<Column[]>([]);
+    const [rows, setRows] = React.useState<Row[]>([])
+    const [columns, setColumns] = React.useState<Column[]>([])
 
     React.useEffect(() => {
         const rows: Row[] = [
@@ -42,49 +42,49 @@ export function SetEvolution(props: ISetEvolutionProps) {
                 unit: 'reps',
                 data: {},
             },
-        ];
+        ]
 
         const columns: Column[] = [
             {
                 name: 'Type',
                 key: 'type',
             },
-        ];
+        ]
 
         props.newSets.forEach((set, i) => {
-            let key = `set_${i}`;
+            let key = `set_${i}`
             columns.push({
                 name: `Série ${i + 1}`,
                 key: key,
-            });
+            })
 
-            let weightBaseSet = 0;
+            let weightBaseSet = 0
             if (props.baseSets[i] != null) {
-                weightBaseSet = props.baseSets[i].weight;
+                weightBaseSet = props.baseSets[i].weight
             }
 
             rows[0].data[key] = {
                 newValue: set.weight,
                 baseValue: weightBaseSet,
-            };
+            }
 
-            let repetitionBaseSet = 0;
+            let repetitionBaseSet = 0
             if (props.baseSets[i] != null) {
-                repetitionBaseSet = props.baseSets[i].repetitions;
+                repetitionBaseSet = props.baseSets[i].repetitions
             }
 
             rows[1].data[key] = {
                 newValue: set.repetitions,
                 baseValue: repetitionBaseSet,
-            };
-        });
+            }
+        })
 
-        setColumns(columns);
-        setRows(rows);
-    }, [props.baseSets, props.newSets]);
+        setColumns(columns)
+        setRows(rows)
+    }, [props.baseSets, props.newSets])
 
     return (
-        <div className='my-3'>
+        <div className='px-1'>
             {columns.length > 0 ? (
                 <Table>
                     <TableHeader columns={columns}>
@@ -99,7 +99,7 @@ export function SetEvolution(props: ISetEvolutionProps) {
                             <TableRow key={item.id}>
                                 {(columnKey) => {
                                     if (columnKey === 'type') {
-                                        return <TableCell>{item.id}</TableCell>;
+                                        return <TableCell>{item.id}</TableCell>
                                     } else {
                                         return (
                                             <TableCell>
@@ -109,7 +109,7 @@ export function SetEvolution(props: ISetEvolutionProps) {
                                                     unit={item.unit}
                                                 />
                                             </TableCell>
-                                        );
+                                        )
                                     }
                                 }}
                             </TableRow>
@@ -118,5 +118,5 @@ export function SetEvolution(props: ISetEvolutionProps) {
                 </Table>
             ) : null}
         </div>
-    );
+    )
 }
