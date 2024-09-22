@@ -1,16 +1,15 @@
 import { Button, Input, Spacer } from '@nextui-org/react'
-import { Set } from '../type'
+import { Set } from '../../../../type'
 import { useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { WeightUnitSelector } from './WeightUnitSelector'
+import { WeightUnitSelector } from './elements/WeightUnitSelector'
 
-export interface ITrackExerciseProps {
+export interface IExerciseRecorderProps {
     trackingId: string
     onChange: (trackingId: string, sets: Set[]) => void
-    // onValidate: (tracking: ExerciseTracking) => void
 }
 
-export function TrackExercise(props: ITrackExerciseProps) {
+export function ExerciseRecorder(props: IExerciseRecorderProps) {
     const [unit, setUnit] = useState('Kg')
     const [setsData, setSetsData] = useState<Set[]>([])
 
@@ -55,7 +54,7 @@ export function TrackExercise(props: ITrackExerciseProps) {
 
     return (
         <div>
-            <div className='flex flex-row justify-between content-center items-center '>
+            <div className='flex flex-row justify-between content-center items-center'>
                 <WeightUnitSelector onChange={updateUnit} />
             </div>
 
@@ -101,10 +100,11 @@ export function TrackExercise(props: ITrackExerciseProps) {
             ))}
 
             <Spacer y={4} />
-
-            <Button size='sm' className='text-[#44a2c2] bg-[#E3EBF9]' onClick={addSet}>
-                Ajouter un set
-            </Button>
+            <div className='flex flex-row justify-center'>
+                <Button size='sm' className='text-[#44a2c2] bg-[#E3EBF9]' onClick={addSet}>
+                    Ajouter un set
+                </Button>
+            </div>
             <Spacer y={4} />
         </div>
     )

@@ -1,20 +1,20 @@
 import { Button, ButtonGroup } from '@nextui-org/react'
 import * as React from 'react'
 
-export interface IButtonBarSelectorProps {
+export interface IButtonsBarSelectorProps {
     baseBackgroundColor: string
     baseTextColor: string
-    items: ButtonBarItems[]
+    items: ButtonsBarItems[]
     onSelect: (value: string) => void
 }
 
-export interface ButtonBarItems {
+export interface ButtonsBarItems {
     label: string
     value: string
     key: string
 }
 
-export function ButtonBarSelector(props: IButtonBarSelectorProps) {
+export function ButtonsBarSelector(props: IButtonsBarSelectorProps) {
     const [activeButton, setActiveButton] = React.useState('')
     const isSelected = (btnName: string) => {
         if (activeButton === btnName) return 'bg-white !rounded-lg'

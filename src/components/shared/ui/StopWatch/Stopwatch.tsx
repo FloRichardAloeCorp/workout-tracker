@@ -31,7 +31,7 @@ export function StopWatch(props: IStopWatchProps) {
 
     return (
         <div>
-            <p className='font-semibold'>
+            <p className='font-medium'>
                 {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:
                 {seconds.toString().padStart(2, '0')}
             </p>

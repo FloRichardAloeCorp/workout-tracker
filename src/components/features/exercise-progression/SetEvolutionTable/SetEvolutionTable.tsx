@@ -1,32 +1,15 @@
 import * as React from 'react'
-import { Set } from '../type'
-import { ComparisonCard } from './ComparisonCard'
+import { Set } from '../../../../type'
+import { ComparisonCard } from './elements/ComparisonCard'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
+import { Row, Column } from './SetEvolutionTable.type'
 
-export interface ISetEvolutionProps {
+export interface ISetEvolutionTableProps {
     baseSets: Set[]
     newSets: Set[]
 }
 
-type Column = {
-    name: string
-    key: string
-}
-
-type ComparisonData = {
-    baseValue: number
-    newValue: number
-}
-
-type Row = {
-    id: string
-    unit: string
-    data: {
-        [key: string]: ComparisonData
-    }
-}
-
-export function SetEvolution(props: ISetEvolutionProps) {
+export function SetEvolutionTable(props: ISetEvolutionTableProps) {
     const [rows, setRows] = React.useState<Row[]>([])
     const [columns, setColumns] = React.useState<Column[]>([])
 

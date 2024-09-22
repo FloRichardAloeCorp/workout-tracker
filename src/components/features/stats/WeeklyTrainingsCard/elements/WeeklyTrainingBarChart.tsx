@@ -1,35 +1,13 @@
 import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis } from 'recharts'
 import { Tooltip } from '@nextui-org/react'
-import { WeeklyChartDataPoint } from './type'
-import { formatTrainingDuration } from './duration'
+import { WeeklyChartDataPoint } from './WeeklyTrainingBarChart.type'
+import { dayToString, formatTrainingDuration } from './WeeklyTrainingBarChart.utils'
 
 export interface IWeeklyTrainingBarChartsProps {
     chartData: WeeklyChartDataPoint[]
 }
 
 export function WeeklyTrainingBarCharts(props: IWeeklyTrainingBarChartsProps) {
-    const getDayAbrev = (day: number): string => {
-        switch (day) {
-            case 1:
-                return 'Lun.'
-            case 2:
-                return 'Mar.'
-            case 3:
-                return 'Mer.'
-            case 4:
-                return 'Jeu.'
-            case 5:
-                return 'Ven.'
-            case 6:
-                return 'Sam.'
-            case 0:
-                return 'Dim.'
-
-            default:
-                return ''
-        }
-    }
-
     return (
         <ResponsiveContainer
             width='100%'
@@ -44,7 +22,7 @@ export function WeeklyTrainingBarCharts(props: IWeeklyTrainingBarChartsProps) {
                 <XAxis
                     dataKey='day'
                     className='text-xs'
-                    tickFormatter={getDayAbrev}
+                    tickFormatter={dayToString}
                     axisLine={false}
                     tickLine={false}
                 />

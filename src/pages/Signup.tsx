@@ -25,7 +25,7 @@ export function Signup(props: ISignupProps) {
     }
 
     return (
-        <div className='flex flex-col h-100% justify-center'>
+        <div className='flex flex-col h-100% justify-center px-8'>
             <Spacer y={12} />
             <div className='flex flex-col justify-center items-center'>
                 <div>

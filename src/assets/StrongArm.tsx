@@ -2,14 +2,13 @@ import * as React from 'react'
 
 export interface IStrongArmProps {
     className: string
-    color: string
 }
 
 export function StrongArm(props: IStrongArmProps) {
     return (
         <svg
             className={props.className}
-            fill={props.color}
+            fill='currentColor'
             version='1.1'
             id='Capa_1'
             xmlns='http://www.w3.org/2000/svg'

@@ -1,16 +1,16 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/react'
 import * as React from 'react'
-import { WeeklyTrainingBarCharts } from './WeeklyTrainingBarChart'
-import { Profile } from '../../type'
+import { WeeklyTrainingBarCharts } from './elements/WeeklyTrainingBarChart'
+import { Profile } from '../../../../type'
 import { isSameWeek } from 'date-fns'
-import { WeeklyChartDataPoint } from './type'
-import { formatTrainingDuration } from './duration'
+import { WeeklyChartDataPoint } from './elements/WeeklyTrainingBarChart.type'
+import { formatTrainingDuration } from './elements/WeeklyTrainingBarChart.utils'
 
-export interface IWeeklyTrainingsProps {
+export interface IWeeklyTrainingsCardProps {
     profile: Profile
 }
 
-export function WeeklyTrainings(props: IWeeklyTrainingsProps) {
+export function WeeklyTrainingsCard(props: IWeeklyTrainingsCardProps) {
     const [chartData, setChartData] = React.useState<WeeklyChartDataPoint[]>([])
 
     React.useEffect(() => {
@@ -81,7 +81,7 @@ export function WeeklyTrainings(props: IWeeklyTrainingsProps) {
         <Card>
             <CardHeader className='flex flex-col items-start'>
                 <h2>Séances de la semaine</h2>
-                <p className='description'>Heures de sport: {trainingsDurationSum}</p>
+                <p className='description'>Heures de sport : {trainingsDurationSum}</p>
             </CardHeader>
             <CardBody>
                 <WeeklyTrainingBarCharts chartData={chartData} />

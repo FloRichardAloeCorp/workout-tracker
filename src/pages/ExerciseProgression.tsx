@@ -2,12 +2,17 @@ import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getExercisebyId } from '../api/exercises'
 import { StrongArm } from '../assets/StrongArm'
-import { Weight } from '../assets/weight'
-import { ProgressChart } from '../components/ProgressChart'
-import { SetEvolution } from '../components/SetEvolution'
+import { LoadProgressionChart } from '../components/features/exercise-progression/LoadProgressionChart/LoadProgressionChart'
 import { Exercise, ExerciseTracking, ChartDataPoint, Profile, Set } from '../type'
-import { Card, CardBody, CardHeader, Spacer } from '@nextui-org/react'
-import { ButtonBarItems, ButtonBarSelector } from '../components/ButtonBarSelector'
+import { Button, Spacer } from '@nextui-org/react'
+import {
+    ButtonsBarItems,
+    ButtonsBarSelector,
+} from '../components/shared/ui/ButtonsBarSelector/ButtonsBarSelector'
+import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
+import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
+import { Weight } from '../assets/Weight'
+import { SetEvolutionTable } from '../components/features/exercise-progression/SetEvolutionTable/SetEvolutionTable'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -93,7 +98,7 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
         setAvgWeightByTraining(data)
     }
 
-    const buttonBarItems: ButtonBarItems[] = [
+    const buttonBarItems: ButtonsBarItems[] = [
         {
             label: 'Mois',
             value: 'month',
@@ -112,9 +117,15 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
     ]
 
     return (
-        <div>
+        <div className='relative h-full'>
+            <div className='absolute top-0'>
+                <Button variant='light' isIconOnly className='h-7' onClick={() => navigate(-1)}>
+                    <ArrowLongLeftIcon className='w-9 h-7 font-bold' />
+                </Button>
+            </div>
             <h1>{exercise?.name}</h1>
-            <div className='max-h-[700px] overflow-y-auto no-scrollbar'>
+
+            <div className='max-h-[93%] overflow-y-auto no-scrollbar'>
                 <Spacer y={12} />
                 {trackings.length === 0 ? (
                     <div className='flex flex-row items-center justify-center'>
@@ -127,28 +138,18 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                         <h2>Dernière séance</h2>
                         <Spacer y={4} />
                         <div className='flex flex-row justify-around'>
-                            <Card
-                                className='w-[47%] h-full bg-[#FEEFC2] text-[#09231B]'
-                                shadow='none'>
-                                <CardHeader className='items-center justify-center'>
-                                    <Weight className='size-9' color='#FFDB95' />
-                                </CardHeader>
-                                <CardBody className='justify-center items-center'>
-                                    <p className='font-semibold'>{totalLiftedWeight} Kg</p>
-                                    <p className='description'> Cumul des charges</p>
-                                </CardBody>
-                            </Card>
-                            <Card
-                                className='w-[47%]  h-full bg-[#E8E5F1] text-[#211B2E]'
-                                shadow='none'>
-                                <CardHeader className='items-center justify-center'>
-                                    <StrongArm className='size-9' color='#b3adc5' />
-                                </CardHeader>
-                                <CardBody className='justify-center items-center'>
-                                    <p className='font-semibold'>{totalReps} Reps</p>
-                                    <p className='description'> Cumul des répétitions</p>
-                                </CardBody>
-                            </Card>
+                            <InfoCard
+                                content={`${totalLiftedWeight} Kg`}
+                                description='Cumul des charges'
+                                icon={<Weight className='size-9' />}
+                                color='yellow'
+                            />
+                            <InfoCard
+                                content={`${totalReps} Reps`}
+                                description='Cumul des répétitions'
+                                icon={<StrongArm className='size-9' />}
+                                color='purple'
+                            />
                         </div>
                         <Spacer y={8} />
                         {trackings.length > 1 ? (
@@ -158,24 +159,24 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                                     Comparaison entre les deux dernières séances.
                                 </p>
                                 <Spacer y={4} />
-                                <SetEvolution
+                                <SetEvolutionTable
                                     baseSets={trackings[trackings.length - 2].sets}
                                     newSets={trackings[trackings.length - 1].sets}
                                 />
                             </div>
                         ) : null}
                         <Spacer y={8} />
-                        <h2>Evolution du poid moyen par séances</h2>
+                        <h2>Évolution du poids moyen par séance</h2>
                         <Spacer y={4} />
                         <div className='text-right'>
-                            <ButtonBarSelector
+                            <ButtonsBarSelector
                                 baseBackgroundColor='#E3EBF9'
                                 baseTextColor='#44a2c2'
                                 items={buttonBarItems}
                                 onSelect={setExerciseProgressionTimeWindow}
                             />
                         </div>
-                        <ProgressChart dataSet={avgWeightByTraining} YAxisUnit='kg' />
+                        <LoadProgressionChart dataSet={avgWeightByTraining} YAxisUnit='kg' />
                     </>
                 )}
             </div>

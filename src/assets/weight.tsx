@@ -1,15 +1,12 @@
-import * as React from 'react'
-
 export interface IWeightProps {
     className: string
-    color: string
 }
 
 export function Weight(props: IWeightProps) {
     return (
         <svg
             className={props.className}
-            fill={props.color}
+            fill='currentColor'
             width='64px'
             height='64px'
             viewBox='0 0 512 512'

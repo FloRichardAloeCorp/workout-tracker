@@ -9,9 +9,14 @@ import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { useEffect, useState } from 'react'
 import { Exercise, Profile } from './type'
-import { Layout } from './components/layout/layout'
+import { Layout } from './components/layout/Layout'
 import { fetchExercises } from './api/exercises'
 import { ExerciseProgression } from './pages/ExerciseProgression'
+import { SelectExercise } from './pages/SelectExercise'
+import { Me } from './pages/me'
+import { auth } from './firebase'
+
+import { readProfile } from './api/profile'
 
 function App() {
     const navigate = useNavigate()
@@ -19,9 +24,23 @@ function App() {
     const [exercises, setExcercises] = useState<Exercise[]>([])
 
     useEffect(() => {
-        fetchExercises().then((exercises) => {
-            setExcercises(exercises)
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const exercises = await fetchExercises()
+                    setExcercises(exercises)
+
+                    const profile = await readProfile(user.uid)
+                    setProfile(profile)
+                    console.log('reloading')
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         })
+
+        // Cleanup the subscription on component unmount
+        return () => unsubscribe()
     }, [])
 
     return (
@@ -38,14 +57,22 @@ function App() {
                 <Route path='/signup' element={<Signup />} />
 
                 <Route path='/' element={<Layout />}>
-                    <Route
-                        index
-                        element={<Home exercises={exercises} OnProfileLoaded={setProfile} />}
-                    />
+                    <Route index element={<Home exercises={exercises} profile={profile} />} />
+                    <Route path='/me' element={<Me />} />
+
                     <Route path='/new_training' element={<NewTraining exercises={exercises} />} />
+                    <Route
+                        path='/new_training/select_exercise'
+                        element={<SelectExercise to='/new_training' exercises={exercises} />}
+                    />
+
                     <Route
                         path='/stats'
                         element={<Stats profile={profile} exercises={exercises} />}
+                    />
+                    <Route
+                        path='/stats/select_exercise'
+                        element={<SelectExercise to='/stats/exercise' exercises={exercises} />}
                     />
                     <Route
                         path='/stats/exercise'

@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import * as React from 'react'
+
 import {
     ResponsiveContainer,
     LineChart,
@@ -10,15 +10,15 @@ import {
     Tooltip,
     TooltipProps,
 } from 'recharts'
-import { ChartDataPoint } from '../type'
+import { ChartDataPoint } from '../../../../type'
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent'
 
-export interface IProgressChartProps {
+export interface ILoadProgressionChartProps {
     YAxisUnit: string
     dataSet: ChartDataPoint[]
 }
 
-export function ProgressChart(props: IProgressChartProps) {
+export function LoadProgressionChart(props: ILoadProgressionChartProps) {
     const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
         if (active && payload && payload.length && payload[0].value) {
             return (
@@ -44,7 +44,7 @@ export function ProgressChart(props: IProgressChartProps) {
     const roundedMaxCharge = Math.round(maxYValue != null ? maxYValue.value : 100)
 
     return (
-        <ResponsiveContainer width='100%' height='100%' minHeight={200}>
+        <ResponsiveContainer width='100%' height='100%' minHeight={300} maxHeight={300}>
             <LineChart data={props.dataSet} margin={{ top: 20, right: 5, bottom: 5 }}>
                 <CartesianGrid horizontal={false} />
 

@@ -1,121 +1,91 @@
-import { Card, CardBody, Spacer, useDisclosure } from '@nextui-org/react'
-import * as React from 'react'
+import { Button, Card, CardBody, CardHeader, Spacer } from '@nextui-org/react'
 import { useNavigate } from 'react-router-dom'
-import { Dumbbell } from '../assets/dumbbell'
-import {
-    CalendarIcon,
-    ChartBarIcon,
-    EyeIcon,
-    FireIcon,
-    PlusCircleIcon,
-} from '@heroicons/react/24/solid'
-import { StatCard } from '../components/StatCard'
+import { CalendarIcon, FireIcon } from '@heroicons/react/24/solid'
+import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 import { format } from 'date-fns'
-import { SelectExerciseModal } from '../components/select-exercise/SelectExerciseModal'
-import { readProfile } from '../api/profile'
-import { auth } from '../firebase'
+
 import { Exercise, Profile } from '../type'
+import logo from '../assets/logo.png'
 
 export interface IHomeProps {
+    profile: Profile | undefined
     exercises: Exercise[]
-    OnProfileLoaded: (profile: Profile) => void
 }
 
 export function Home(props: IHomeProps) {
-    const [profile, setProfile] = React.useState<Profile>()
-    const selectExerciseModalDiscosure = useDisclosure()
     const navigate = useNavigate()
 
-    React.useEffect(() => {
-        if (!auth.currentUser) {
-            return
-        }
-
-        readProfile(auth.currentUser.uid)
-            .then((profile) => {
-                setProfile(profile)
-                props.OnProfileLoaded(profile)
-            })
-            .catch((error) => console.log(error))
-
-        console.log(profile)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    const trainingsCount = props.profile?.trainings != null ? props.profile.trainings.length : 0
+    const lastTrainingDate =
+        props.profile?.trainings != null && props.profile?.trainings.length > 0
+            ? format(
+                  props.profile?.trainings[props.profile?.trainings.length - 1].start_date.toDate(),
+                  'dd/MM'
+              )
+            : 'N/A'
 
     return (
         <div className='App'>
             <h1>Home</h1>
+
             <Spacer y={12} />
 
-            <div className='flex flex-row justify-between'>
-                <StatCard
-                    title='Séances'
-                    stat={`${
-                        profile && profile.trainings && profile.trainings.length > 0
-                            ? profile?.trainings.length.toString()
-                            : '0'
-                    }`}
-                    icon={<FireIcon className='size-5' />}
-                />
-                {profile && profile.trainings && profile.trainings.length > 0 ? (
-                    <StatCard
-                        title='Dernière séance'
-                        stat={format(
-                            profile?.trainings[profile?.trainings.length - 1].start_date.toDate() ||
-                                '',
-                            'dd/MM'
-                        )}
-                        icon={<CalendarIcon className='size-5' />}
-                    />
-                ) : (
-                    <StatCard
-                        title='Dernière séance'
-                        stat={'N/A'}
-                        icon={<CalendarIcon className='size-5' />}
-                    />
-                )}
+            <div className='flex flex-col justify-center items-center'>
+                <div>
+                    <img src={logo} alt='logo' className='h-16 w-auto'></img>
+                </div>
             </div>
 
             <Spacer y={8} />
 
-            <Card
-                isPressable
-                onPress={() => navigate('/new_training')}
-                className='w-full bg-success text-white'
-                shadow='sm'>
-                <CardBody className='flex flex-row items-center justify-between'>
-                    <div className='flex flex-row items-center gap-x-3'>
-                        <PlusCircleIcon className='size-8' />
-                        <p className='text-lg'>Nouvelle séance</p>
-                    </div>
-                    <Dumbbell color='#FFFFFF' className='size-5' />
+            <div className='flex flex-row justify-around h-32'>
+                <InfoCard
+                    content={trainingsCount.toString()}
+                    description='Nombre de séances'
+                    icon={<FireIcon className='size-9' />}
+                    color='yellow'
+                />
+                <InfoCard
+                    content={lastTrainingDate}
+                    description='Dernière séance'
+                    icon={<CalendarIcon className='size-9' />}
+                    color='purple'
+                />
+            </div>
+
+            <Spacer y={8} />
+
+            <Card>
+                <CardHeader className='flex flex-col items-start'>
+                    <h2>Nouvelle séance</h2>
+                </CardHeader>
+                <p className='description text-center'>
+                    Commencez à enregistrer une nouvelle séance.
+                </p>
+                <CardBody className=''>
+                    <Button
+                        className='text-[#37b88d] bg-[#3fcd9e43]'
+                        onClick={() => navigate('/new_training')}>
+                        Commencer
+                    </Button>
                 </CardBody>
             </Card>
 
             <Spacer y={8} />
 
-            <h2 className='text-left'>Statisques</h2>
-
-            <Spacer y={8} />
-
-            <Card
-                isPressable
-                onPress={() => selectExerciseModalDiscosure.onOpen()}
-                className='w-full bg-[#1D3557] text-white'
-                shadow='sm'>
-                <CardBody className='flex flex-row items-center justify-between'>
-                    <div className='flex flex-row items-center gap-x-3'>
-                        <EyeIcon className='size-8' />
-                        <p className='text-lg'>Voir plus</p>
-                    </div>
-                    <ChartBarIcon className='size-5'></ChartBarIcon>
+            <Card>
+                <CardHeader className='flex flex-col items-start'>
+                    <h2>Progression</h2>
+                </CardHeader>
+                <p className='description text-center'>Consultez votre progression.</p>
+                <CardBody className=''>
+                    <Button
+                        className='text-[#44a2c2] bg-[#E3EBF9]'
+                        onClick={() => navigate('/stats')}>
+                        Consulter
+                    </Button>
                 </CardBody>
             </Card>
-            <SelectExerciseModal
-                disclosure={selectExerciseModalDiscosure}
-                onSelectedExercise={(e: string) => {}}
-                exercises={props.exercises}
-            />
         </div>
     )
 }
