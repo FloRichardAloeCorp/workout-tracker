@@ -3,7 +3,6 @@ import { Button, Input, Spacer } from '@nextui-org/react'
 import * as React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../firebase'
-import logo from '../assets/logo.png'
 import { createProfile } from '../api/profile'
 
 export interface ISignupProps {}
@@ -29,7 +28,7 @@ export function Signup(props: ISignupProps) {
             <Spacer y={12} />
             <div className='flex flex-col justify-center items-center'>
                 <div>
-                    <img src={logo} alt='logo' className='h-20 w-auto'></img>
+                    <img src='/logo.png' alt='logo' className='h-20 w-auto'></img>
                 </div>
             </div>
             <Spacer y={16} />

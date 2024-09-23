@@ -20,7 +20,7 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
     }, [])
 
     if (loading) {
-        return <div>Chargement...</div>
+        return <div className='h-full flex flex-col justify-center items-center'>Chargement...</div>
     }
 
     if (!user) {

@@ -3,7 +3,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import * as React from 'react'
 import { auth } from '../firebase'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../assets/logo.png'
 
 export interface ILoginProps {}
 
@@ -27,7 +26,7 @@ export function Login(props: ILoginProps) {
             <Spacer y={12} />
             <div className='flex flex-col justify-center items-center'>
                 <div>
-                    <img src={logo} alt='logo' className='h-20 w-auto'></img>
+                    <img src='/logo.png' alt='logo' className='h-20 w-auto'></img>
                 </div>
             </div>
             <Spacer y={16} />

@@ -5,7 +5,6 @@ import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 import { format } from 'date-fns'
 
 import { Exercise, Profile } from '../type'
-import logo from '../assets/logo.png'
 
 export interface IHomeProps {
     profile: Profile | undefined
@@ -32,7 +31,7 @@ export function Home(props: IHomeProps) {
 
             <div className='flex flex-col justify-center items-center'>
                 <div>
-                    <img src={logo} alt='logo' className='h-16 w-auto'></img>
+                    <img src='/logo.png' alt='logo' className='h-16 w-auto'></img>
                 </div>
             </div>
 
