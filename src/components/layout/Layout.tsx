@@ -1,9 +1,9 @@
 import { ChartBarIcon, HomeIcon, PlusCircleIcon, UserIcon } from '@heroicons/react/24/solid'
-import { NavBarButton } from './NavBarButton'
+import { Spacer } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { ProtectedRoute } from '../../auth/ProtectRoute'
-import { Spacer } from '@nextui-org/react'
+import { NavBarButton } from './NavBarButton'
 
 export const Layout = () => {
     const [activeButton, setActiveButton] = useState<string>('home')
