@@ -2,7 +2,7 @@ import { ChartBarIcon, HomeIcon, PlusCircleIcon, UserIcon } from '@heroicons/rea
 import { Spacer } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { ProtectedRoute } from '../../auth/ProtectRoute'
+import { ProtectedRoute } from '../features/auth/ProtectedRoute/ProtectRoute'
 import { NavBarButton } from './NavBarButton'
 
 export const Layout = () => {
