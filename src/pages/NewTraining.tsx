@@ -18,6 +18,7 @@ import { SearchableExerciseSelect } from '../components/features/select-exercise
 
 export interface INewTrainingProps {
     exercises: Exercise[]
+    onValidate: () => void
 }
 
 export function NewTraining(props: INewTrainingProps) {
@@ -92,8 +93,10 @@ export function NewTraining(props: INewTrainingProps) {
             trackings: trackingsData,
         })
 
+        props.onValidate()
+
         navigate('/')
-    }, [navigate, selectedDate, trackings, trainingDuration])
+    }, [navigate, selectedDate, trackings, trainingDuration, props])
 
     // Validate training only if endTraining is set to true and
     // the component has received a training duration.

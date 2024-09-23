@@ -42,6 +42,13 @@ function App() {
         return () => unsubscribe()
     }, [])
 
+    const reloadProfile = async () => {
+        if (auth.currentUser) {
+            const profile = await readProfile(auth.currentUser.uid)
+            setProfile(profile)
+        }
+    }
+
     return (
         <NextUIProvider navigate={navigate} useHref={useHref}>
             <Helmet>
@@ -59,7 +66,10 @@ function App() {
                     <Route index element={<Home exercises={exercises} profile={profile} />} />
                     <Route path='/me' element={<Me />} />
 
-                    <Route path='/new_training' element={<NewTraining exercises={exercises} />} />
+                    <Route
+                        path='/new_training'
+                        element={<NewTraining exercises={exercises} onValidate={reloadProfile} />}
+                    />
                     <Route
                         path='/new_training/select_exercise'
                         element={<SelectExercise to='/new_training' exercises={exercises} />}
