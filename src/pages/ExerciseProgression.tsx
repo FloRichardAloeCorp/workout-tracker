@@ -11,8 +11,9 @@ import {
 } from '../components/shared/ui/ButtonsBarSelector/ButtonsBarSelector'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
-import { Weight } from '../assets/Weight'
+
 import { SetEvolutionTable } from '../components/features/exercise-progression/SetEvolutionTable/SetEvolutionTable'
+import { WeightLogo } from '../assets/WeightLogo'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -141,7 +142,7 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                             <InfoCard
                                 content={`${totalLiftedWeight} Kg`}
                                 description='Cumul des charges'
-                                icon={<Weight className='size-9' />}
+                                icon={<WeightLogo className='size-9' />}
                                 color='yellow'
                             />
                             <InfoCard

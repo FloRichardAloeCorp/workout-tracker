@@ -1,8 +1,8 @@
-export interface IWeightProps {
+export interface IWeightLogoProps {
     className: string
 }
 
-export function Weight(props: IWeightProps) {
+export function WeightLogo(props: IWeightLogoProps) {
     return (
         <svg
             className={props.className}
