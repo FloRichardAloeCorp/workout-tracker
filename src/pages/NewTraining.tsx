@@ -6,7 +6,6 @@ import { Accordion, AccordionItem, Button, DatePicker, Divider, Spacer } from '@
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { getLocalTimeZone, today } from '@internationalized/date'
 import { useNavigate } from 'react-router-dom'
-import { addTraining } from '../api/profile'
 import { auth } from '../firebase'
 import { Timestamp } from 'firebase/firestore'
 import { StopWatch } from '../components/shared/ui/StopWatch/Stopwatch'
@@ -15,6 +14,7 @@ import { isToday } from 'date-fns'
 import { ExerciseRecorder } from '../components/features/new-training/ExerciseRecorder/ExerciseRecorder'
 import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 import { SearchableExerciseSelect } from '../components/features/select-exercises/SearchableExerciseSelect/SearchableExerciseSelect'
+import { ProfileService } from '../services/ProfileService'
 
 export interface INewTrainingProps {
     exercises: Exercise[]
@@ -86,7 +86,7 @@ export function NewTraining(props: INewTrainingProps) {
             return
         }
 
-        await addTraining(auth.currentUser.uid, {
+        await ProfileService.addTraining(auth.currentUser.uid, {
             training_id: crypto.randomUUID(),
             start_date: Timestamp.fromDate(date),
             duration_in_secondes: trainingDuration,

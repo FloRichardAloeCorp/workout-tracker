@@ -10,13 +10,13 @@ import { Signup } from './pages/Signup'
 import { useEffect, useState } from 'react'
 import { Exercise, Profile } from './type'
 import { Layout } from './components/layout/Layout'
-import { fetchExercises } from './api/exercises'
 import { ExerciseProgression } from './pages/ExerciseProgression'
 import { SelectExercise } from './pages/SelectExercise'
 import { Me } from './pages/me'
 import { auth } from './firebase'
 
-import { readProfile } from './api/profile'
+import { ExercisesService } from './services/ExercisesService'
+import { ProfileService } from './services/ProfileService'
 
 function App() {
     const navigate = useNavigate()
@@ -27,10 +27,10 @@ function App() {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 try {
-                    const exercises = await fetchExercises()
+                    const exercises = await ExercisesService.getAll()
                     setExcercises(exercises)
 
-                    const profile = await readProfile(user.uid)
+                    const profile = await ProfileService.getbyId(user.uid)
                     setProfile(profile)
                 } catch (error) {
                     console.log(error)
@@ -44,7 +44,7 @@ function App() {
 
     const reloadProfile = async () => {
         if (auth.currentUser) {
-            const profile = await readProfile(auth.currentUser.uid)
+            const profile = await ProfileService.getbyId(auth.currentUser.uid)
             setProfile(profile)
         }
     }

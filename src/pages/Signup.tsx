@@ -3,7 +3,7 @@ import { Button, Input, Spacer } from '@nextui-org/react'
 import * as React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../firebase'
-import { createProfile } from '../api/profile'
+import { ProfileService } from '../services/ProfileService'
 
 export interface ISignupProps {}
 
@@ -16,7 +16,7 @@ export function Signup(props: ISignupProps) {
         e.preventDefault()
         try {
             const credentials = await createUserWithEmailAndPassword(auth, email, password)
-            await createProfile(credentials.user.uid)
+            await ProfileService.create(credentials.user.uid)
             navigate('/')
         } catch (error) {
             console.log('sign up error', error)

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getExercisebyId } from '../api/exercises'
 import { StrongArm } from '../assets/StrongArm'
 import { LoadProgressionChart } from '../components/features/exercise-progression/LoadProgressionChart/LoadProgressionChart'
 import { Exercise, ExerciseTracking, ChartDataPoint, Profile, Set } from '../type'
@@ -36,7 +35,10 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
         if (!exerciseId) {
             return
         }
-        getExercisebyId(exerciseId).then((res) => setExercise(res))
+
+        setExercise(() => {
+            return props.exercises.find((exercise) => exercise.exercise_id === exerciseId)
+        })
 
         setTrackings(() => {
             const exerciseTrackings: ExerciseTracking[] = []
@@ -51,7 +53,7 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
 
             return exerciseTrackings
         })
-    }, [props.profile?.trainings, searchParams, navigate, props.profile])
+    }, [props.profile?.trainings, searchParams, navigate, props.profile, props.exercises])
 
     React.useEffect(() => {
         if (trackings.length > 0) {
