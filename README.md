@@ -16,3 +16,7 @@ palette: https://coolors.co/77d7f7-77f7d1-f7d577-f27a68-849ba2
 ## Project structure
 
 The project structure is following [this guide](https://infinum.com/blog/react-project-structure/)
+
+
+## TODO
+* Reload profile when a new training is added.
