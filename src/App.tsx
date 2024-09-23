@@ -32,7 +32,6 @@ function App() {
 
                     const profile = await readProfile(user.uid)
                     setProfile(profile)
-                    console.log('reloading')
                 } catch (error) {
                     console.log(error)
                 }
