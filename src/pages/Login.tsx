@@ -20,7 +20,7 @@ export function Login(props: ILoginProps) {
     }
 
     return (
-        <div className='flex flex-col h-100% justify-center px-8'>
+        <div className='w-full sm:w-[35%] mx-auto flex flex-col h-100% justify-center px-8'>
             <Spacer y={12} />
 
             <div className='flex flex-col justify-center items-center'>
