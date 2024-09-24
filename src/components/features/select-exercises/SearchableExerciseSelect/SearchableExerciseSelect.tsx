@@ -16,7 +16,6 @@ export function SearchableExerciseSelect(props: ISearchableExerciseSelectProps) 
     const navigate = useNavigate()
 
     const onSelect = (exerciseId: string) => {
-        console.log(exerciseId)
         if (props.to) {
             navigate(`${props.to}?exercise_id=${exerciseId}`)
         }

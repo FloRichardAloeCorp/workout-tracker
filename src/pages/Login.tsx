@@ -11,7 +11,6 @@ export function Login(props: ILoginProps) {
     const navigate = useNavigate()
 
     const login = async (email: string, password: string) => {
-        console.log(email, password)
         try {
             await signInWithEmailAndPassword(auth, email, password)
             navigate('/')

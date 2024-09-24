@@ -218,7 +218,6 @@ export function NewTraining(props: INewTrainingProps) {
                 disclosure={confirmModalDisclosure}
                 onConfirm={() => {
                     setEndTraining(true)
-                    console.log('coucou')
                 }}
                 onCancel={() => {}}
             />

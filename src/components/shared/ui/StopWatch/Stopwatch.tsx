@@ -17,7 +17,6 @@ export function StopWatch(props: IStopWatchProps) {
         } else {
             if (!hasStopped.current) {
                 hasStopped.current = true
-                console.log('hello', time)
                 props.onStop(time)
             }
         }

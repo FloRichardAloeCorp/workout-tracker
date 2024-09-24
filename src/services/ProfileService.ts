@@ -12,7 +12,6 @@ export const ProfileService = {
             await setDoc(profileDocument, {
                 created_at: new Date(),
             })
-            console.log('profile created')
         } catch (error) {
             console.log(error)
         }
