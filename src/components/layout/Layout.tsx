@@ -38,7 +38,7 @@ export const Layout = () => {
     }, [location])
 
     return (
-        <div className='relative min-h-full max-h-full h-full w-full  flex flex-col justify-between'>
+        <div className='relative min-h-full max-h-full h-full w-full sm:w-[50%] flex flex-col justify-between mx-auto'>
             <div className='relative flex flex-col flex-grow min-w-full max-h-[89%] h-[89%]  px-8'>
                 <Spacer y={4} />
                 <ProtectedRoute>{<Outlet />}</ProtectedRoute>
