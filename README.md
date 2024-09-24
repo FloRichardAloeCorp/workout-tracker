@@ -1,22 +1,21 @@
-# PROJECT STATUS
+# Workout Tracker
 
-THIS PROJECT IS A WORK IN PROGRESS
+<center>
+<img src="public/logo.png" alt="drawing" width="100"/>
+</center>
 
-# Colors
+Track your gym progress with Workout Tracker, a simple app designed to help you without distracting you during your training sessions.
 
-* Text: text-gray-900
-* Subtitle / descriptions: text-gray-500
+## Get the App
 
-* blue: #77D7F7
-* green: #37b88d
-* red: #F27A68
+The application is a PWA and is available [here](https://workout-tracker-g1m4.onrender.com/).
 
-palette: https://coolors.co/77d7f7-77f7d1-f7d577-f27a68-849ba2
+Install it on your devices by adding it to your home screen.
 
-## Project structure
+## Available Languages
 
-The project structure is following [this guide](https://infinum.com/blog/react-project-structure/)
+* French
 
+## Technical Insights
 
-## TODO
-* Reload profile when a new training is added.
+The app is a ReactJS PWA hosted on Render. Authentication and backend services are powered by Firebase.
