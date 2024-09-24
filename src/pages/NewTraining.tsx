@@ -1,7 +1,15 @@
 import * as React from 'react'
 
 import { Exercise, ExerciseTracking, Set } from '../type'
-import { Accordion, AccordionItem, Button, DatePicker, Divider, Spacer } from '@nextui-org/react'
+import {
+    Accordion,
+    AccordionItem,
+    Button,
+    DatePicker,
+    Divider,
+    Spacer,
+    useDisclosure,
+} from '@nextui-org/react'
 
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { getLocalTimeZone, today } from '@internationalized/date'
@@ -15,6 +23,7 @@ import { ExerciseRecorder } from '../components/features/new-training/ExerciseRe
 import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 import { SearchableExerciseSelect } from '../components/features/select-exercises/SearchableExerciseSelect/SearchableExerciseSelect'
 import { ProfileService } from '../services/ProfileService'
+import { ConfirmationModal } from '../components/shared/confirmation/ConfirmationModal/ConfirmationModal'
 
 export interface INewTrainingProps {
     exercises: Exercise[]
@@ -24,6 +33,7 @@ export interface INewTrainingProps {
 export function NewTraining(props: INewTrainingProps) {
     const [trackings, setTrackings] = React.useState<ExerciseTracking[]>([])
     const [selectedDate, setSelectedDate] = React.useState(today(getLocalTimeZone()))
+    const confirmModalDisclosure = useDisclosure()
 
     const [showSelectExercise, setShowSelectExercise] = React.useState(false)
     const [trainingDuration, setTrainingDuration] = React.useState(0)
@@ -191,7 +201,9 @@ export function NewTraining(props: INewTrainingProps) {
 
                         <Button
                             className='text-[#37b88d] bg-[#3fcd9e43] w-36 mx-auto mb-1 absolute bottom-0 left-0 right-0'
-                            onClick={() => setEndTraining(true)}>
+                            onClick={() => {
+                                confirmModalDisclosure.onOpen()
+                            }}>
                             Valider la séance
                         </Button>
                     </div>
@@ -201,6 +213,15 @@ export function NewTraining(props: INewTrainingProps) {
             <div className={showSelectExercise ? '' : 'hidden'}>
                 <SearchableExerciseSelect exercises={props.exercises} onSelect={addTracking} />
             </div>
+            <ConfirmationModal
+                message='Voulez-vous valider la séance ?'
+                disclosure={confirmModalDisclosure}
+                onConfirm={() => {
+                    setEndTraining(true)
+                    console.log('coucou')
+                }}
+                onCancel={() => {}}
+            />
         </div>
     )
 }
