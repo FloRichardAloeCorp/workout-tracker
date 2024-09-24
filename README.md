@@ -1,8 +1,8 @@
 # Workout Tracker
 
-<center>
+<p align="center">
 <img src="public/logo.png" alt="drawing" width="100"/>
-</center>
+</p>
 
 Track your gym progress with Workout Tracker, a simple app designed to help you without distracting you during your training sessions.
 
