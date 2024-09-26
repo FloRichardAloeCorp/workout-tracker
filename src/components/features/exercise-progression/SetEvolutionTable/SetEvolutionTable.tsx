@@ -89,7 +89,6 @@ export function SetEvolutionTable(props: ISetEvolutionTableProps) {
                                                 <ComparisonCard
                                                     baseValue={item.data[columnKey].baseValue}
                                                     newValue={item.data[columnKey].newValue}
-                                                    unit={item.unit}
                                                 />
                                             </TableCell>
                                         )

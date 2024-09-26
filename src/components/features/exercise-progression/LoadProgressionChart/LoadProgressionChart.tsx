@@ -24,7 +24,9 @@ export function LoadProgressionChart(props: ILoadProgressionChartProps) {
             return (
                 <div className='bg-white border p-2 text-sm'>
                     <p className='font-semibold'>{format(label, 'dd/MM/yyyy')}</p>
-                    <p className='label'>{`Charge : ${payload[0].value}Kg`}</p>
+                    <p className='label'>{`Charge : ${Math.round(
+                        payload[0].value as number
+                    )}Kg`}</p>
                 </div>
             )
         }
@@ -44,7 +46,7 @@ export function LoadProgressionChart(props: ILoadProgressionChartProps) {
     const roundedMaxCharge = Math.round(maxYValue != null ? maxYValue.value : 100)
 
     return (
-        <ResponsiveContainer width='100%' height='100%' minHeight={300} maxHeight={300}>
+        <ResponsiveContainer width='100%' height='100%' minHeight={120} maxHeight={200}>
             <LineChart data={props.dataSet} margin={{ top: 20, right: 5, bottom: 5 }}>
                 <CartesianGrid horizontal={false} />
 

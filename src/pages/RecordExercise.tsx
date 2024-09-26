@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { ExerciseRecorder } from '../components/features/new-training/ExerciseRecorder/ExerciseRecorder'
-import { Button, Spacer } from '@nextui-org/react'
+import { Spacer } from '@nextui-org/react'
 import { useTrackingsContext } from '../components/features/new-training/TrackingsContext/TrackingsContext'
 import { Set } from '../type'
 import { GoBackHeader } from '../components/shared/headers/GoBackHeader/GoBackHeader'
@@ -16,7 +16,7 @@ export function RecordExercise() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const validateSets = () => {
+    const validateSets = (sets: Set[]) => {
         setTrackings(
             trackings.map((tracking) => {
                 return tracking.exercise_tracking_id === trackingId
@@ -44,11 +44,7 @@ export function RecordExercise() {
 
             <Spacer y={12} />
 
-            <ExerciseRecorder sets={sets} onChange={setSets} />
-
-            <Button className='text-[#37b88d] bg-[#3fcd9e43]' onClick={validateSets}>
-                Valider les séries
-            </Button>
+            <ExerciseRecorder sets={sets} onValidate={validateSets} />
         </div>
     )
 }
