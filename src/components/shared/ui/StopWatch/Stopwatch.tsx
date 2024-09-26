@@ -13,9 +13,21 @@ export function StopWatch(props: IStopWatchProps) {
         let intervalId: NodeJS.Timeout
 
         if (props.isRunning) {
+            const rawStartedAt = localStorage.getItem('stop_watch_started')
+            if (rawStartedAt) {
+                const startedAt = new Date(rawStartedAt)
+                const durationSinceStart = Math.floor(
+                    (new Date().getTime() - startedAt.getTime()) / 1000
+                )
+                setTime(durationSinceStart)
+            } else {
+                localStorage.setItem('stop_watch_started', new Date().toISOString())
+            }
+
             intervalId = setInterval(() => setTime((previous) => previous + 1), 1000)
         } else {
             if (!hasStopped.current) {
+                localStorage.removeItem('stop_watch_started')
                 hasStopped.current = true
                 props.onStop(time)
             }

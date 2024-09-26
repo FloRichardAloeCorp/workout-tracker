@@ -17,6 +17,8 @@ import { auth } from './firebase'
 
 import { ExercisesService } from './services/ExercisesService'
 import { ProfileService } from './services/ProfileService'
+import { RecordExercise } from './pages/RecordExercise'
+import { TrackingsContextProvider } from './components/features/new-training/TrackingsContext/TrackingsContext'
 
 function App() {
     const navigate = useNavigate()
@@ -58,37 +60,45 @@ function App() {
                 />
             </Helmet>
 
-            <Routes>
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<Signup />} />
+            <TrackingsContextProvider>
+                <Routes>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<Signup />} />
 
-                <Route path='/' element={<Layout />}>
-                    <Route index element={<Home exercises={exercises} profile={profile} />} />
-                    <Route path='/me' element={<Me />} />
+                    <Route path='/' element={<Layout />}>
+                        <Route index element={<Home exercises={exercises} profile={profile} />} />
+                        <Route path='/me' element={<Me />} />
 
-                    <Route
-                        path='/new_training'
-                        element={<NewTraining exercises={exercises} onValidate={reloadProfile} />}
-                    />
-                    <Route
-                        path='/new_training/select_exercise'
-                        element={<SelectExercise to='/new_training' exercises={exercises} />}
-                    />
+                        <Route
+                            path='/new_training'
+                            element={
+                                <NewTraining exercises={exercises} onValidate={reloadProfile} />
+                            }
+                        />
+                        <Route
+                            path='/new_training/select_exercise'
+                            element={<SelectExercise to='/new_training' exercises={exercises} />}
+                        />
 
-                    <Route
-                        path='/stats'
-                        element={<Stats profile={profile} exercises={exercises} />}
-                    />
-                    <Route
-                        path='/stats/select_exercise'
-                        element={<SelectExercise to='/stats/exercise' exercises={exercises} />}
-                    />
-                    <Route
-                        path='/stats/exercise'
-                        element={<ExerciseProgression profile={profile} exercises={exercises} />}
-                    />
-                </Route>
-            </Routes>
+                        <Route path='/new_training/record_exercise' element={<RecordExercise />} />
+
+                        <Route
+                            path='/stats'
+                            element={<Stats profile={profile} exercises={exercises} />}
+                        />
+                        <Route
+                            path='/stats/select_exercise'
+                            element={<SelectExercise to='/stats/exercise' exercises={exercises} />}
+                        />
+                        <Route
+                            path='/stats/exercise'
+                            element={
+                                <ExerciseProgression profile={profile} exercises={exercises} />
+                            }
+                        />
+                    </Route>
+                </Routes>
+            </TrackingsContextProvider>
         </NextUIProvider>
     )
 }

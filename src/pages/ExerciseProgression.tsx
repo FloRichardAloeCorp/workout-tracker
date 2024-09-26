@@ -13,6 +13,7 @@ import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 
 import { SetEvolutionTable } from '../components/features/exercise-progression/SetEvolutionTable/SetEvolutionTable'
 import { WeightLogo } from '../assets/WeightLogo'
+import { GoBackHeader } from '../components/shared/headers/GoBackHeader/GoBackHeader'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -121,12 +122,7 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
 
     return (
         <div className='relative h-full'>
-            <div className='absolute top-0'>
-                <Button variant='light' isIconOnly className='h-7' onClick={() => navigate(-1)}>
-                    <ArrowLongLeftIcon className='w-9 h-7 font-bold' />
-                </Button>
-            </div>
-            <h1>{exercise?.name}</h1>
+            <GoBackHeader title={`${exercise?.name}`} />
 
             <div className='max-h-[93%] overflow-y-auto no-scrollbar'>
                 <Spacer y={12} />

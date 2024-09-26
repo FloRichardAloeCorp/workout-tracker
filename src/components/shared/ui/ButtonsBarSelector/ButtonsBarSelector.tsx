@@ -5,6 +5,7 @@ export interface IButtonsBarSelectorProps {
     baseBackgroundColor: string
     baseTextColor: string
     items: ButtonsBarItems[]
+    selectedKey?: string
     onSelect: (value: string) => void
 }
 
@@ -15,9 +16,10 @@ export interface ButtonsBarItems {
 }
 
 export function ButtonsBarSelector(props: IButtonsBarSelectorProps) {
-    const [activeButton, setActiveButton] = React.useState('')
+    const [activeButton, setActiveButton] = React.useState(props.selectedKey)
     const isSelected = (btnName: string) => {
-        if (activeButton === btnName) return 'bg-white !rounded-lg'
+        if (activeButton === btnName)
+            return `bg-white !rounded-lg border-[${props.baseBackgroundColor}]`
         return 'border-transparent'
     }
 

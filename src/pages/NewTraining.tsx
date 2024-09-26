@@ -1,10 +1,11 @@
 import * as React from 'react'
 
-import { Exercise, ExerciseTracking, Set } from '../type'
+import { Exercise } from '../type'
 import {
-    Accordion,
-    AccordionItem,
     Button,
+    Card,
+    CardBody,
+    CardHeader,
     DatePicker,
     Divider,
     Spacer,
@@ -19,11 +20,11 @@ import { Timestamp } from 'firebase/firestore'
 import { StopWatch } from '../components/shared/ui/StopWatch/Stopwatch'
 import { CalendarIcon, ClockIcon } from '@heroicons/react/24/solid'
 import { isToday } from 'date-fns'
-import { ExerciseRecorder } from '../components/features/new-training/ExerciseRecorder/ExerciseRecorder'
 import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 import { SearchableExerciseSelect } from '../components/features/select-exercises/SearchableExerciseSelect/SearchableExerciseSelect'
 import { ProfileService } from '../services/ProfileService'
 import { ConfirmationModal } from '../components/shared/confirmation/ConfirmationModal/ConfirmationModal'
+import { useTrackingsContext } from '../components/features/new-training/TrackingsContext/TrackingsContext'
 
 export interface INewTrainingProps {
     exercises: Exercise[]
@@ -31,7 +32,7 @@ export interface INewTrainingProps {
 }
 
 export function NewTraining(props: INewTrainingProps) {
-    const [trackings, setTrackings] = React.useState<ExerciseTracking[]>([])
+    const { trackings, setTrackings } = useTrackingsContext()
     const [selectedDate, setSelectedDate] = React.useState(today(getLocalTimeZone()))
     const confirmModalDisclosure = useDisclosure()
 
@@ -40,7 +41,6 @@ export function NewTraining(props: INewTrainingProps) {
     const [endTraining, setEndTraining] = React.useState(false)
 
     const navigate = useNavigate()
-    const setsStore = React.useRef<any[]>([])
 
     const addTracking = (exerciseId: string) => {
         setShowSelectExercise(false)
@@ -54,27 +54,17 @@ export function NewTraining(props: INewTrainingProps) {
                 date: Timestamp.now(),
             },
         ])
-        setsStore.current.push({ id: trackingId, sets: [] })
     }
 
     const deleteTracking = (trackingId: string) => {
         setTrackings(trackings.filter((tracking) => tracking.exercise_tracking_id !== trackingId))
-        setsStore.current = setsStore.current.filter((set) => set.id !== trackingId)
     }
 
     const findExerciseNameFromId = (exerciseId: string) => {
         return props.exercises.find((exercise) => exercise.exercise_id === exerciseId)?.name || ''
     }
 
-    const updateSets = (trackingId: string, sets: Set[]) => {
-        setsStore.current = setsStore.current.map((set) =>
-            set.id === trackingId ? { ...set, sets: sets } : set
-        )
-    }
-
     const validateTraining = React.useCallback(async () => {
-        const trackingsData: ExerciseTracking[] = []
-
         const today = new Date()
         const date = selectedDate.toDate(getLocalTimeZone())
         if (isToday(date)) {
@@ -83,13 +73,8 @@ export function NewTraining(props: INewTrainingProps) {
             date.setHours(12, 0, 0)
         }
 
-        trackings.forEach((tracking, i) => {
-            trackingsData.push({
-                exercise_tracking_id: tracking.exercise_tracking_id,
-                exercise_id: tracking.exercise_id,
-                sets: setsStore.current[i].sets,
-                date: Timestamp.fromDate(date),
-            })
+        let trackingsData = trackings.map((tracking) => {
+            return { ...tracking, date: Timestamp.fromDate(date) }
         })
 
         if (!auth.currentUser) {
@@ -170,33 +155,37 @@ export function NewTraining(props: INewTrainingProps) {
                     <div className='description'>Ajoutez un execice pour commencer.</div>
                 ) : (
                     <div className='relative h-[60%] max-h-[60%] min-h-[60%]'>
-                        <div className='h-96 overflow-y-auto'>
-                            <Accordion variant='splitted' keepContentMounted isCompact>
-                                {trackings.map((tracking) => (
-                                    <AccordionItem
-                                        key={tracking.exercise_tracking_id}
-                                        aria-label='Développé couché'
-                                        title={findExerciseNameFromId(tracking.exercise_id)}
-                                        HeadingComponent={'p'}
-                                        className='shadow-none border'
-                                        startContent={
-                                            <Button
-                                                variant='flat'
-                                                color='danger'
-                                                isIconOnly
-                                                onClick={() => {
-                                                    deleteTracking(tracking.exercise_tracking_id)
-                                                }}>
-                                                <TrashIcon className='size-5 ' />
-                                            </Button>
-                                        }>
-                                        <ExerciseRecorder
-                                            trackingId={tracking.exercise_tracking_id}
-                                            onChange={updateSets}
-                                        />
-                                    </AccordionItem>
-                                ))}
-                            </Accordion>
+                        <div className='flex flex-col gap-y-2 h-96 overflow-y-auto px-2 pt-2'>
+                            {trackings.map((tracking) => (
+                                <Card
+                                    key={tracking.exercise_tracking_id}
+                                    isPressable
+                                    onPress={() => {
+                                        navigate(
+                                            `/new_training/record_exercise?tracking_id=${tracking.exercise_tracking_id}`,
+                                            { state: { sets: tracking.sets } }
+                                        )
+                                    }}
+                                    className='h-[6.5rem] min-h-[6.5rem]'
+                                    shadow='sm'>
+                                    <CardHeader className='items-center justify-between'>
+                                        <p className='font-semibold text-sm'>
+                                            {findExerciseNameFromId(tracking.exercise_id)}
+                                        </p>
+                                        <Button
+                                            variant='light'
+                                            isIconOnly
+                                            onPress={() =>
+                                                deleteTracking(tracking.exercise_tracking_id)
+                                            }>
+                                            <TrashIcon className='size-5 text-danger' />
+                                        </Button>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <p className='description'>{`${tracking.sets.length} séries.`}</p>
+                                    </CardBody>
+                                </Card>
+                            ))}
                         </div>
 
                         <Button
@@ -213,6 +202,7 @@ export function NewTraining(props: INewTrainingProps) {
             <div className={showSelectExercise ? '' : 'hidden'}>
                 <SearchableExerciseSelect exercises={props.exercises} onSelect={addTracking} />
             </div>
+
             <ConfirmationModal
                 message='Voulez-vous valider la séance ?'
                 disclosure={confirmModalDisclosure}
