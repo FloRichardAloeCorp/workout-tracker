@@ -105,7 +105,7 @@ export function NewTraining(props: INewTrainingProps) {
     document.querySelector('#datepicker > div')?.classList.add('!gap-0', 'pr-1')
 
     return (
-        <div className='relative h-full text-center'>
+        <div className='relative h-full text-center min-h-0'>
             <div className={`relative h-full ${showSelectExercise ? 'hidden' : ''}`}>
                 <h1 className='text-center '>Entrainement</h1>
                 <Spacer y={12} />
@@ -154,8 +154,8 @@ export function NewTraining(props: INewTrainingProps) {
                 {trackings.length === 0 ? (
                     <div className='description'>Ajoutez un execice pour commencer.</div>
                 ) : (
-                    <div className='relative h-[60%] max-h-[60%] min-h-[60%]'>
-                        <div className='flex flex-col gap-y-2 h-96 overflow-y-auto px-2 pt-2'>
+                    <div className='flex flex-col flex-grow justify-between'>
+                        <div className='flex flex-col gap-y-2 h-80 overflow-y-auto px-2 pt-2'>
                             {trackings.map((tracking) => (
                                 <Card
                                     key={tracking.exercise_tracking_id}
