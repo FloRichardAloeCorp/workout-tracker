@@ -34,7 +34,7 @@ export function SearchableExerciseSelect(props: ISearchableExerciseSelectProps) 
                 onValueChange={setSearchBValue}
                 endContent={<MagnifyingGlassIcon className='size-4' />}></Input>
             <Spacer y={4} />
-            <div className='h-[78%] overflow-y-auto'>
+            <div className='h-[85%] overflow-y-auto'>
                 <ExercisesList
                     exercises={props.exercises}
                     filter={searchValue}

@@ -105,7 +105,7 @@ export function NewTraining(props: INewTrainingProps) {
     document.querySelector('#datepicker > div')?.classList.add('!gap-0', 'pr-1')
 
     return (
-        <div className='relative h-full text-center min-h-0'>
+        <div className='relative h-full text-center'>
             <div className={`relative h-full ${showSelectExercise ? 'hidden' : ''}`}>
                 <h1 className='text-center '>Entrainement</h1>
                 <Spacer y={12} />
@@ -199,7 +199,7 @@ export function NewTraining(props: INewTrainingProps) {
                 )}
             </div>
 
-            <div className={showSelectExercise ? '' : 'hidden'}>
+            <div className={`h-full ${showSelectExercise ? '' : 'hidden'}`}>
                 <SearchableExerciseSelect exercises={props.exercises} onSelect={addTracking} />
             </div>
 

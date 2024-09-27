@@ -45,7 +45,7 @@ export function ExercisesList(props: IExercisesListProps) {
         <div>
             {Object.entries(displayedExercise).map(([category, exercises]) => (
                 <div key={category}>
-                    <h2>{category}</h2>
+                    <h2 className='text-left'>{category}</h2>
                     <Spacer y={2} />
                     <div className='grid grid-cols-2 gap-2'>
                         {exercises.map((exercise) => (
