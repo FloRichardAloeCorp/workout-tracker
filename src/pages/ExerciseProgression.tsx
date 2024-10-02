@@ -1,19 +1,19 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { StrongArm } from '../assets/StrongArm'
-import { LoadProgressionChart } from '../components/features/exercise-progression/LoadProgressionChart/LoadProgressionChart'
-import { Exercise, ExerciseTracking, ChartDataPoint, Profile, Set } from '../type'
-import { Button, Spacer } from '@nextui-org/react'
+import { LoadProgressionChart } from '../components/features/exercise-progression/Charts/LoadProgressionChart'
+import { Exercise, ExerciseTracking, Profile, Set } from '../type'
+import { Spacer } from '@nextui-org/react'
 import {
     ButtonsBarItems,
     ButtonsBarSelector,
 } from '../components/shared/ui/ButtonsBarSelector/ButtonsBarSelector'
-import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 
 import { SetEvolutionTable } from '../components/features/exercise-progression/SetEvolutionTable/SetEvolutionTable'
 import { WeightLogo } from '../assets/WeightLogo'
 import { GoBackHeader } from '../components/shared/headers/GoBackHeader/GoBackHeader'
+import { RepetitionProgressionChart } from '../components/features/exercise-progression/Charts/RepetitionProgressionChart'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -26,7 +26,6 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
     const [trackings, setTrackings] = React.useState<ExerciseTracking[]>([])
     const [totalLiftedWeight, setTotalLiftedWeight] = React.useState(0)
     const [totalReps, setTotalReps] = React.useState(0)
-    const [avgWeightByTraining, setAvgWeightByTraining] = React.useState<ChartDataPoint[]>([])
     const [exerciseProgressionTimeWindow, setExerciseProgressionTimeWindow] = React.useState('')
 
     const navigate = useNavigate()
@@ -62,7 +61,6 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
             computeTotalLiftedWeight(lastSet)
             computeTotalReps(lastSet)
         }
-        computeAvgWeightByTraining(trackings)
     }, [trackings])
 
     const computeTotalLiftedWeight = (sets: Set[]) => {
@@ -79,27 +77,6 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
             sum += set.repetitions
         })
         setTotalReps(sum)
-    }
-
-    const computeAvgWeightByTraining = (trackings: ExerciseTracking[]) => {
-        const data: ChartDataPoint[] = []
-        trackings.forEach((tracking) => {
-            let sum = 0
-            let count = 0
-            tracking.sets.forEach((set) => {
-                sum += set.weight
-                count++
-            })
-            if (count > 0) {
-                data.push({
-                    date: tracking.date.toDate(),
-                    value: sum / count,
-                })
-            }
-            sum = 0
-            count = 0
-        })
-        setAvgWeightByTraining(data)
     }
 
     const buttonBarItems: ButtonsBarItems[] = [
@@ -165,17 +142,24 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                             </div>
                         ) : null}
                         <Spacer y={8} />
-                        <h2>Évolution du poids moyen par séance</h2>
+
+                        <h2>Évolution par séance</h2>
                         <Spacer y={4} />
-                        <div className='text-right'>
+                        {/* <div className='text-right'>
                             <ButtonsBarSelector
                                 baseBackgroundColor='#E3EBF9'
                                 baseTextColor='#44a2c2'
                                 items={buttonBarItems}
                                 onSelect={setExerciseProgressionTimeWindow}
                             />
-                        </div>
-                        <LoadProgressionChart dataSet={avgWeightByTraining} YAxisUnit='kg' />
+                        </div> */}
+                        <h3 className='description font-semibold'>Charge moyenne par séance</h3>
+                        <LoadProgressionChart trackings={trackings} />
+                        <Spacer y={4} />
+                        <h3 className='description font-semibold'>
+                            Répétitions moyennes par séance
+                        </h3>
+                        <RepetitionProgressionChart trackings={trackings} />
                     </>
                 )}
             </div>

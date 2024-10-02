@@ -34,33 +34,48 @@ export function SetEvolutionTable(props: ISetEvolutionTableProps) {
             },
         ]
 
-        props.newSets.forEach((set, i) => {
+        let setsCount = props.newSets.length
+        if (props.baseSets.length > setsCount) {
+            setsCount = props.baseSets.length
+        }
+
+        for (let i = 0; i < setsCount; i++) {
             let key = `set_${i}`
             columns.push({
                 name: `Série ${i + 1}`,
                 key: key,
             })
 
-            let weightBaseSet = 0
+            let baseSetWeight = 0
             if (props.baseSets[i] != null) {
-                weightBaseSet = props.baseSets[i].weight
+                baseSetWeight = props.baseSets[i].weight
+            }
+
+            let newSetWeight = 0
+            if (props.newSets[i] != null) {
+                newSetWeight = props.newSets[i].weight
             }
 
             rows[0].data[key] = {
-                newValue: set.weight,
-                baseValue: weightBaseSet,
+                baseValue: baseSetWeight,
+                newValue: newSetWeight,
             }
 
-            let repetitionBaseSet = 0
+            let baseSetReps = 0
             if (props.baseSets[i] != null) {
-                repetitionBaseSet = props.baseSets[i].repetitions
+                baseSetReps = props.baseSets[i].repetitions
+            }
+
+            let newSetReps = 0
+            if (props.newSets[i] != null) {
+                newSetReps = props.newSets[i].repetitions
             }
 
             rows[1].data[key] = {
-                newValue: set.repetitions,
-                baseValue: repetitionBaseSet,
+                baseValue: baseSetReps,
+                newValue: newSetReps,
             }
-        })
+        }
 
         setColumns(columns)
         setRows(rows)

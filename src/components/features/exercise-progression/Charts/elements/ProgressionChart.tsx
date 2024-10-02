@@ -10,23 +10,24 @@ import {
     Tooltip,
     TooltipProps,
 } from 'recharts'
-import { ChartDataPoint } from '../../../../type'
+import { ChartDataPoint } from '../../../../../type'
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent'
 
-export interface ILoadProgressionChartProps {
+export interface IProgressionChartProps {
     YAxisUnit: string
     dataSet: ChartDataPoint[]
+    tooltipValueLabel: string
 }
 
-export function LoadProgressionChart(props: ILoadProgressionChartProps) {
+export function ProgressionChart(props: IProgressionChartProps) {
     const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
         if (active && payload && payload.length && payload[0].value) {
             return (
                 <div className='bg-white border p-2 text-sm'>
                     <p className='font-semibold'>{format(label, 'dd/MM/yyyy')}</p>
-                    <p className='label'>{`Charge : ${Math.round(
+                    <p className='label'>{`${props.tooltipValueLabel} : ${Math.round(
                         payload[0].value as number
-                    )}Kg`}</p>
+                    )}${props.YAxisUnit}`}</p>
                 </div>
             )
         }
@@ -42,8 +43,8 @@ export function LoadProgressionChart(props: ILoadProgressionChartProps) {
         return current.value > max.value ? current : max
     }, props.dataSet[0])
 
-    const roundedMinCharge = Math.round(minYValue != null ? minYValue.value : 0)
-    const roundedMaxCharge = Math.round(maxYValue != null ? maxYValue.value : 100)
+    const roundedMinYValue = Math.round(minYValue != null ? minYValue.value : 0)
+    const roundedMaxYValue = Math.round(maxYValue != null ? maxYValue.value : 100)
 
     return (
         <ResponsiveContainer width='100%' height='100%' minHeight={120} maxHeight={200}>
@@ -56,8 +57,8 @@ export function LoadProgressionChart(props: ILoadProgressionChartProps) {
                     label={{ value: props.YAxisUnit, position: 'center' }}
                     className='text-xs'
                     interval={'preserveStartEnd'}
-                    ticks={[roundedMinCharge, roundedMaxCharge]}
-                    domain={[roundedMinCharge, roundedMaxCharge]}
+                    ticks={[roundedMinYValue, roundedMaxYValue]}
+                    domain={[roundedMinYValue, roundedMaxYValue]}
                     tickLine={false}
                     axisLine={false}
                 />
