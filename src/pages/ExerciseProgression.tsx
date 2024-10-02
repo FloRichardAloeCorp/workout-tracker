@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { StrongArm } from '../assets/StrongArm'
 import { LoadProgressionChart } from '../components/features/exercise-progression/Charts/LoadProgressionChart'
 import { Exercise, ExerciseTracking, Profile, Set } from '../type'
 import { Spacer } from '@nextui-org/react'
@@ -8,12 +7,11 @@ import {
     ButtonsBarItems,
     ButtonsBarSelector,
 } from '../components/shared/ui/ButtonsBarSelector/ButtonsBarSelector'
-import { InfoCard } from '../components/shared/ui/InfoCard/InfoCard'
 
 import { SetEvolutionTable } from '../components/features/exercise-progression/SetEvolutionTable/SetEvolutionTable'
-import { WeightLogo } from '../assets/WeightLogo'
 import { GoBackHeader } from '../components/shared/headers/GoBackHeader/GoBackHeader'
 import { RepetitionProgressionChart } from '../components/features/exercise-progression/Charts/RepetitionProgressionChart'
+import { LastTrainingSummary } from '../components/features/exercise-progression/LastTrainingSummary/LastTrainingSummary'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -24,8 +22,6 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
     const [searchParams] = useSearchParams()
     const [exercise, setExercise] = React.useState<Exercise>()
     const [trackings, setTrackings] = React.useState<ExerciseTracking[]>([])
-    const [totalLiftedWeight, setTotalLiftedWeight] = React.useState(0)
-    const [totalReps, setTotalReps] = React.useState(0)
     const [exerciseProgressionTimeWindow, setExerciseProgressionTimeWindow] = React.useState('')
 
     const navigate = useNavigate()
@@ -55,30 +51,6 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
         })
     }, [props.profile?.trainings, searchParams, navigate, props.profile, props.exercises])
 
-    React.useEffect(() => {
-        if (trackings.length > 0) {
-            const lastSet = trackings[trackings.length - 1].sets
-            computeTotalLiftedWeight(lastSet)
-            computeTotalReps(lastSet)
-        }
-    }, [trackings])
-
-    const computeTotalLiftedWeight = (sets: Set[]) => {
-        let sum = 0
-        sets.forEach((set) => {
-            sum += set.weight
-        })
-        setTotalLiftedWeight(sum)
-    }
-
-    const computeTotalReps = (sets: Set[]) => {
-        let sum = 0
-        sets.forEach((set) => {
-            sum += set.repetitions
-        })
-        setTotalReps(sum)
-    }
-
     const buttonBarItems: ButtonsBarItems[] = [
         {
             label: 'Mois',
@@ -92,8 +64,8 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
         },
         {
             label: '6 derniers mois',
-            value: '36months',
-            key: '36months',
+            value: '6months',
+            key: '6months',
         },
     ]
 
@@ -113,21 +85,11 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                     <>
                         <h2>Dernière séance</h2>
                         <Spacer y={4} />
-                        <div className='flex flex-row justify-around'>
-                            <InfoCard
-                                content={`${totalLiftedWeight} Kg`}
-                                description='Cumul des charges'
-                                icon={<WeightLogo className='size-9' />}
-                                color='yellow'
-                            />
-                            <InfoCard
-                                content={`${totalReps} Reps`}
-                                description='Cumul des répétitions'
-                                icon={<StrongArm className='size-9' />}
-                                color='purple'
-                            />
-                        </div>
+
+                        <LastTrainingSummary sets={trackings[trackings.length - 1].sets} />
+
                         <Spacer y={8} />
+
                         {trackings.length > 1 ? (
                             <div>
                                 <h2>Progression</h2>
@@ -141,10 +103,13 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                                 />
                             </div>
                         ) : null}
+
                         <Spacer y={8} />
 
                         <h2>Évolution par séance</h2>
+
                         <Spacer y={4} />
+
                         {/* <div className='text-right'>
                             <ButtonsBarSelector
                                 baseBackgroundColor='#E3EBF9'
@@ -153,12 +118,17 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                                 onSelect={setExerciseProgressionTimeWindow}
                             />
                         </div> */}
+
                         <h3 className='description font-semibold'>Charge moyenne par séance</h3>
+
                         <LoadProgressionChart trackings={trackings} />
+
                         <Spacer y={4} />
+
                         <h3 className='description font-semibold'>
                             Répétitions moyennes par séance
                         </h3>
+
                         <RepetitionProgressionChart trackings={trackings} />
                     </>
                 )}
