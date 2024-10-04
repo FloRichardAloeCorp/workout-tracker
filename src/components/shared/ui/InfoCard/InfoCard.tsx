@@ -13,9 +13,9 @@ export function InfoCard(props: IInfoCardProps) {
     const setColors = () => {
         switch (props.color) {
             case 'yellow':
-                return `bg-[#FEEFC2] text-[#09231B]`
+                return `bg-yellow-100 text-yellow-900`
             case 'purple':
-                return `bg-[#E8E5F1] text-[#211B2E]`
+                return `bg-purple-100 text-purple-900`
             default:
                 return ''
         }
@@ -24,9 +24,9 @@ export function InfoCard(props: IInfoCardProps) {
     const setIconColor = () => {
         switch (props.color) {
             case 'yellow':
-                return 'text-[#FFDB95]'
+                return 'text-yellow-300'
             case 'purple':
-                return 'text-[#b3adc5]'
+                return 'text-purple-300'
             default:
                 break
         }

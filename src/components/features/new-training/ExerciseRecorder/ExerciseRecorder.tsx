@@ -85,7 +85,7 @@ export function ExerciseRecorder(props: IExerciseRecorderProps) {
                 <div className='w-full flex flex-row justify-between items-center'>
                     <WeightUnitSelector onChange={setUnit} />
 
-                    <Button size='sm' className='text-[#44a2c2] bg-[#E3EBF9]' onClick={addSet}>
+                    <Button size='sm' className='text-blue-400 bg-blue-100' onClick={addSet}>
                         Ajouter un set
                     </Button>
                 </div>
@@ -137,7 +137,7 @@ export function ExerciseRecorder(props: IExerciseRecorderProps) {
                     ))}
                 </div>
             </div>
-            <Button className='text-[#37b88d] bg-[#3fcd9e43]' onClick={validateSets}>
+            <Button className='text-green-400 bg-green-100' onClick={validateSets}>
                 Valider les séries
             </Button>
         </div>

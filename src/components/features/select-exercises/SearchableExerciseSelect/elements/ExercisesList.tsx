@@ -51,7 +51,7 @@ export function ExercisesList(props: IExercisesListProps) {
                         {exercises.map((exercise) => (
                             <Button
                                 key={exercise.exercise_id}
-                                className='text-[#44a2c2] bg-[#E3EBF9] '
+                                className='text-blue-400 bg-blue-100'
                                 value={exercise.exercise_id}
                                 onClick={() => props.onSelect(exercise.exercise_id)}>
                                 <p className='truncate'>{exercise.name}</p>

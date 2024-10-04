@@ -44,13 +44,6 @@ export const Layout = () => {
         console.log(location.pathname)
     }, [location])
 
-    // useEffect(() => {
-    //     setInProp(false) // Commence la transition de sortie
-    //     setTimeout(() => {
-    //         setInProp(true) // Après la sortie, déclenche la transition d'entrée
-    //     }, 100)
-    // }, [location.pathname])
-
     return (
         <div className='relative min-h-full max-h-full h-full w-full sm:w-[50%] flex flex-col justify-between mx-auto'>
             <SwitchTransition>
@@ -69,7 +62,7 @@ export const Layout = () => {
                 </CSSTransition>
             </SwitchTransition>
 
-            <div className='flex flex-row w-full justify-evenly py-2 pb-6 sticky border-t-1 bg-background'>
+            <div className='flex flex-row w-full justify-evenly py-2 pb-6 sticky border-t-1 bg-background border-default-200'>
                 <NavBarButton
                     current_button={activeButton}
                     name='stats'

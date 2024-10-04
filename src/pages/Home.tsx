@@ -63,7 +63,7 @@ export function Home(props: IHomeProps) {
                 </p>
                 <CardBody className=''>
                     <Button
-                        className='text-[#37b88d] bg-[#3fcd9e43]'
+                        className='text-green-400 bg-green-100'
                         onClick={() => navigate('/new_training')}>
                         Commencer
                     </Button>
@@ -79,7 +79,7 @@ export function Home(props: IHomeProps) {
                 <p className='description text-center'>Consultez votre progression.</p>
                 <CardBody className=''>
                     <Button
-                        className='text-[#44a2c2] bg-[#E3EBF9]'
+                        className='text-blue-400 bg-blue-100'
                         onClick={() => navigate('/stats')}>
                         Consulter
                     </Button>

@@ -144,7 +144,7 @@ export function NewTraining(props: INewTrainingProps) {
                     <h2 className='text-left'>Exercices</h2>
                     <Button
                         size='sm'
-                        className='text-[#44a2c2] bg-[#E3EBF9]'
+                        className='text-blue-400 bg-blue-100'
                         onClick={() => setShowSelectExercise(true)}>
                         Ajouter
                     </Button>
@@ -189,7 +189,7 @@ export function NewTraining(props: INewTrainingProps) {
                         </div>
 
                         <Button
-                            className='text-[#37b88d] bg-[#3fcd9e43] w-36 mx-auto mb-1 absolute bottom-0 left-0 right-0'
+                            className='text-green-400 bg-green-100 w-36 mx-auto mb-1 absolute bottom-0 left-0 right-0'
                             onClick={() => {
                                 confirmModalDisclosure.onOpen()
                             }}>

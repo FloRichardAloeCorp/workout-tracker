@@ -27,7 +27,7 @@ export function WeightUnitSelector(props: IWeightUnitSelectorProps) {
 
     return (
         <ButtonsBarSelector
-            baseBackgroundColor='#FEEFC2'
+            color='yellow'
             baseTextColor='#09231B'
             items={items}
             selectedKey='kg'

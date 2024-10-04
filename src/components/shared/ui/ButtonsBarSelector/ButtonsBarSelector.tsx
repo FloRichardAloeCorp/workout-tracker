@@ -2,7 +2,7 @@ import { Button, ButtonGroup } from '@nextui-org/react'
 import * as React from 'react'
 
 export interface IButtonsBarSelectorProps {
-    baseBackgroundColor: string
+    color: 'yellow'
     baseTextColor: string
     items: ButtonsBarItems[]
     selectedKey?: string
@@ -18,30 +18,38 @@ export interface ButtonsBarItems {
 export function ButtonsBarSelector(props: IButtonsBarSelectorProps) {
     const [activeButton, setActiveButton] = React.useState(props.selectedKey)
 
-    const isSelected = (btnName: string) => {
-        if (activeButton === btnName)
-            return {
-                backgroundColor: 'white',
-                borderColor: props.baseBackgroundColor,
-                borderRadius: '0.5rem',
-            }
-        return { borderColor: 'transparent' }
+    const setBackgroundColor = () => {
+        switch (props.color) {
+            case 'yellow':
+                return 'bg-yellow-100'
+
+            default:
+                return ''
+        }
+    }
+
+    const setBorderColor = () => {
+        switch (props.color) {
+            case 'yellow':
+                return 'border-yellow-100'
+
+            default:
+                return ''
+        }
     }
 
     return (
-        <ButtonGroup
-            className={`max-w-full rounded-lg bg-[${props.baseBackgroundColor}]`}
-            size='sm'>
+        <ButtonGroup className={`max-w-full rounded-lg ${setBackgroundColor()}`} size='sm'>
             {props.items.map((item) => (
                 <Button
                     key={item.key}
                     variant='light'
                     disableRipple
-                    style={{
-                        color: props.baseTextColor,
-                        borderWidth: '2px',
-                        ...isSelected(item.key),
-                    }}
+                    className={`border-2 ${
+                        activeButton === item.key
+                            ? `!rounded-lg ${setBorderColor()} bg-white`
+                            : `border-transparent ${setBackgroundColor()}`
+                    }`}
                     onClick={() => {
                         setActiveButton(item.key)
                         props.onSelect(item.value)
