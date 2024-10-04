@@ -17,10 +17,15 @@ export interface ButtonsBarItems {
 
 export function ButtonsBarSelector(props: IButtonsBarSelectorProps) {
     const [activeButton, setActiveButton] = React.useState(props.selectedKey)
+
     const isSelected = (btnName: string) => {
         if (activeButton === btnName)
-            return `bg-white !rounded-lg border-[${props.baseBackgroundColor}]`
-        return 'border-transparent'
+            return {
+                backgroundColor: 'white',
+                borderColor: props.baseBackgroundColor,
+                borderRadius: '0.5rem',
+            }
+        return { borderColor: 'transparent' }
     }
 
     return (
@@ -32,7 +37,11 @@ export function ButtonsBarSelector(props: IButtonsBarSelectorProps) {
                     key={item.key}
                     variant='light'
                     disableRipple
-                    className={`text-[${props.baseTextColor}] border-2  ${isSelected(item.key)}`}
+                    style={{
+                        color: props.baseTextColor,
+                        borderWidth: '2px',
+                        ...isSelected(item.key),
+                    }}
                     onClick={() => {
                         setActiveButton(item.key)
                         props.onSelect(item.value)
