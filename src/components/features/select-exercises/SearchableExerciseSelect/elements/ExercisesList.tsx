@@ -10,32 +10,7 @@ export interface IExercisesListProps {
 }
 
 export function ExercisesList(props: IExercisesListProps) {
-    const [displayedExercise, setDisplayedExercise] = React.useState<GroupedExercises>({})
-
-    React.useEffect(() => {
-        if (props.filter === '') {
-            setDisplayedExercise(groupExerciseByCategory(props.exercises))
-            return
-        }
-
-        setDisplayedExercise(() => {
-            const filteredExercises = props.exercises.filter((exercise) => {
-                return exercise.name
-                    .toUpperCase()
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .includes(
-                        props.filter
-                            .toUpperCase()
-                            .normalize('NFD')
-                            .replace(/[\u0300-\u036f]/g, '')
-                    )
-            })
-            console.log(props.filter.toLocaleUpperCase())
-
-            return groupExerciseByCategory(filteredExercises)
-        })
-    }, [props.filter, props.exercises])
+    let displayedExercise: GroupedExercises = {}
 
     const groupExerciseByCategory = (exercises: Exercise[]) => {
         const groupedExercises = exercises.reduce<GroupedExercises>((acc, exercise) => {
@@ -49,6 +24,25 @@ export function ExercisesList(props: IExercisesListProps) {
         }, {})
 
         return groupedExercises
+    }
+
+    if (props.filter === '') {
+        displayedExercise = groupExerciseByCategory(props.exercises)
+    } else {
+        const filteredExercises = props.exercises.filter((exercise) => {
+            return exercise.name
+                .toUpperCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .includes(
+                    props.filter
+                        .toUpperCase()
+                        .normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                )
+        })
+
+        displayedExercise = groupExerciseByCategory(filteredExercises)
     }
 
     return (
