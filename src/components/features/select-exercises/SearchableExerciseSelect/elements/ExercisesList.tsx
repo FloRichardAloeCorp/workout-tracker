@@ -20,8 +20,18 @@ export function ExercisesList(props: IExercisesListProps) {
 
         setDisplayedExercise(() => {
             const filteredExercises = props.exercises.filter((exercise) => {
-                return exercise.name.toLowerCase().includes(props.filter.toLowerCase())
+                return exercise.name
+                    .toUpperCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .includes(
+                        props.filter
+                            .toUpperCase()
+                            .normalize('NFD')
+                            .replace(/[\u0300-\u036f]/g, '')
+                    )
             })
+            console.log(props.filter.toLocaleUpperCase())
 
             return groupExerciseByCategory(filteredExercises)
         })
