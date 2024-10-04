@@ -12,7 +12,9 @@ export function SelectExercise(props: ISelectExerciseProps) {
         <div className='relative h-full'>
             <h1>Sélectionnez un exercice</h1>
             <Spacer y={12} />
-            <SearchableExerciseSelect exercises={props.exercises} to={props.to} />
+            <div className='h-[95%]'>
+                <SearchableExerciseSelect exercises={props.exercises} to={props.to} />
+            </div>
         </div>
     )
 }
