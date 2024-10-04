@@ -155,7 +155,7 @@ export function NewTraining(props: INewTrainingProps) {
                     <div className='description'>Ajoutez un execice pour commencer.</div>
                 ) : (
                     <div className='flex flex-col flex-grow justify-between'>
-                        <div className='flex flex-col gap-y-2 h-80 overflow-y-auto px-2 pt-2'>
+                        <div className='flex flex-col gap-y-2 h-80 overflow-y-auto px-2 py-2'>
                             {trackings.map((tracking) => (
                                 <Card
                                     key={tracking.exercise_tracking_id}
