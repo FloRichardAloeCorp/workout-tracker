@@ -12,6 +12,7 @@ import { SetEvolutionTable } from '../components/features/exercise-progression/S
 import { GoBackHeader } from '../components/shared/headers/GoBackHeader/GoBackHeader'
 import { RepetitionProgressionChart } from '../components/features/exercise-progression/Charts/RepetitionProgressionChart'
 import { LastTrainingSummary } from '../components/features/exercise-progression/LastTrainingSummary/LastTrainingSummary'
+import { format } from 'date-fns'
 
 export interface IExerciseProgressionProps {
     profile: Profile | undefined
@@ -84,6 +85,9 @@ export function ExerciseProgression(props: IExerciseProgressionProps) {
                 ) : (
                     <>
                         <h2>Dernière séance</h2>
+                        <p className='description'>
+                            {format(trackings[trackings.length - 1].date.toDate(), 'dd/MM/yyyy')}
+                        </p>
                         <Spacer y={4} />
 
                         <LastTrainingSummary sets={trackings[trackings.length - 1].sets} />
